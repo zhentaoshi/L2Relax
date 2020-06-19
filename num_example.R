@@ -1,6 +1,3 @@
-
-
-
 rm( list = ls() )
 source("opt_func.R")
 
