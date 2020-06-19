@@ -22,6 +22,8 @@ Sigma = crossprod(e)/TT
 w_hat_L2 = rL2_primal(Sigma, tau = 0)
 w_hat_dual = rL2_dual(Sigma, tau = 0)$w
 
+w_hat_L2_mosek <- rL2_primal_mosek(Sigma, tau = 0)$w
+w_hat_dual_mosek = rL2_dual_mosek(Sigma, tau = 0)$w
 
 #######################################
 ########### Group structure
