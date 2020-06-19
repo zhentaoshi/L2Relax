@@ -1,3 +1,6 @@
+# Authors: Zhentao Shi, Zhan Gao
+# 6/19/2020
+
 
 # require(CVXR)
 # require(Rmosek)

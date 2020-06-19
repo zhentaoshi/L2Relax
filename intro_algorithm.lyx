@@ -1,0 +1,518 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+%\usepackage[auth]{authblk}
+% \newtheorem{remk}{Remark}
+% ABOVESPACE
+% BELOWSPACE
+% BODYFONT
+% INDENT (empty value is the same as 0pt)
+% HEADFONT
+% HEADPUNCT
+% HEADSPACE
+% CUSTOM-HEAD-SPEC
+%\theoremstyle{proof}
+%\newtheorem*{proofs}{}
+%\usepackage{chngcntr}
+%\usepackage{apptools}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{xcolor}
+\usepackage{pdfcolmk}
+\usepackage{babel}
+\usepackage{graphicx}
+%\usepackage{ulem}
+\usepackage{xcolor}
+
+
+\setcounter{MaxMatrixCols}{10}
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.50.0.2960}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=BibTeX}
+%TCIDATA{LastRevised=Sunday, May 17, 2020 11:15:12}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{Language=American English}
+
+\renewcommand\theenumi{(\alph{enumi})}
+\renewcommand\labelenumi{\theenumi}
+\end_preamble
+\use_default_options false
+\begin_modules
+theorems-ams-bytype
+theorems-ams-extended-bytype
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding iso8859-15
+\fontencoding T1
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 11
+\spacing onehalf
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\pdf_quoted_options "pdfborderstyle=,linkcolor={blue},citecolor={blue}"
+\papersize default
+\use_geometry true
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 0
+\use_package esint 1
+\use_package mathdots 0
+\use_package mathtools 0
+\use_package mhchem 0
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plainnat
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1in
+\topmargin 1in
+\rightmargin 1in
+\bottommargin 1in
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Notation
+\series default
+: For a random variable 
+\begin_inset Formula $x$
+\end_inset
+
+, its population mean is 
+\begin_inset Formula $E\left[x\right]$
+\end_inset
+
+.
+ For a sample 
+\begin_inset Formula $\left(x_{1},\ldots,x_{T}\right)$
+\end_inset
+
+, its sample mean is 
+\begin_inset Formula $\mathbb{E}_{T}\left[x_{t}\right]=T^{-1}\sum_{t=1}^{T}x_{t}$
+\end_inset
+
+.
+ Plain 
+\begin_inset Formula $b$
+\end_inset
+
+ denotes a scalar, boldface lowercase 
+\begin_inset Formula $\mathbf{b}$
+\end_inset
+
+ denotes a vector, and boldface uppercase 
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+ denotes a matrix.
+ The 
+\begin_inset Formula $\ell_{1}$
+\end_inset
+
+-norm of 
+\begin_inset Formula $\mathbf{b}$
+\end_inset
+
+ is denoted as 
+\begin_inset Formula $\left\Vert \mathbf{b}\right\Vert _{1}=\sum_{i=1}^{n}\left\vert b_{i}\right\vert $
+\end_inset
+
+ and the 
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+-norm as 
+\begin_inset Formula $\left\Vert \mathbf{b}\right\Vert _{2}=\left(\sum_{i=1}^{n}b_{i}^{2}\right)^{1/2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The cross-sectional units are indexed by 
+\begin_inset Formula $i\in\left[N\right]:=\left\{ 1,\ldots,N\right\} $
+\end_inset
+
+.
+ For a generic index set 
+\begin_inset Formula $\mathcal{G}\subset\left[N\right]$
+\end_inset
+
+, we denote 
+\begin_inset Formula $\left\vert \mathcal{G}\right\vert $
+\end_inset
+
+ as the cardinality of 
+\begin_inset Formula $\mathcal{G}$
+\end_inset
+
+, and 
+\begin_inset Formula $\mathbf{b}_{\mathcal{G}}=\left(b_{i}\right)_{i\in\mathcal{G}_{k}}$
+\end_inset
+
+ as the 
+\begin_inset Formula $\left\vert \mathcal{G}\right\vert $
+\end_inset
+
+-dimensional subvector.
+ We call a vector of 
+\shape italic
+similar sign
+\shape default
+ if no pair of its elements takes the opposite signs.
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:-Relaxation"
+
+\end_inset
+
+ 
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+-relaxation
+\end_layout
+
+\begin_layout Standard
+An idea to stabilize the numerical solution is to expand the feasible set.
+ Inspired by the Dantzig selector of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "candes2007dantzig"
+literal "false"
+
+\end_inset
+
+ and the relaxed empirical likelihood of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "shi2016econometric"
+literal "false"
+
+\end_inset
+
+, we consider relaxing the sup-norm of the KKT condition as follows: 
+\begin_inset Formula 
+\begin{equation}
+\min_{\left(\mathbf{w},\gamma\right)\in\mathbb{R}^{N+1}}\ \frac{1}{2}\left\Vert \mathbf{w}\right\Vert _{2}^{2}\text{ \ \ subject to \ }\mathbf{w}^{\prime}\boldsymbol{1}_{N}=1\ \text{and }\Vert\widehat{\boldsymbol{\Sigma}}\mathbf{w}+\gamma\boldsymbol{1}_{N}\Vert_{\infty}\leq\tau,\label{eq:relax}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\tau$
+\end_inset
+
+ is a tuning parameter to be specified by the user.
+ We call the problem in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:relax"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) the 
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+
+\shape italic
+-relaxation primal problem
+\shape default
+, and denote the solution to (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:relax"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) as 
+\begin_inset Formula $\widehat{\mathbf{w}}=\widehat{\mathbf{w}}_{\tau},$
+\end_inset
+
+ where we frequently suppress the dependence of 
+\begin_inset Formula $\widehat{\mathbf{w}}$
+\end_inset
+
+ on 
+\begin_inset Formula $\tau$
+\end_inset
+
+ for conciseness.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+-relaxation includes the low dimensional problem (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:relax_tau_0"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) as a special case when 
+\begin_inset Formula $\tau$
+\end_inset
+
+ is set as zero.
+ When 
+\begin_inset Formula $\tau>0$
+\end_inset
+
+, we relax the high dimensional component of the KKT condition (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:KKT"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+ Since (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:bates-granger"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) always has a solution, constraints in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:relax"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) are feasible for any 
+\begin_inset Formula $\tau\geq0$
+\end_inset
+
+.
+ Moreover, the solution to (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:relax"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) is unique because the objective is a strictly convex function and the
+ feasible set is a closed convex set.
+ Therefore, while (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:bates-granger"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) may have multiple solutions, the objective function in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:relax"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) selects in the feasible set the solution with the smallest 
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+-norm.
+\end_layout
+
+\begin_layout Standard
+To proceed, we consider the dual problem of (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:relax"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+ The result is stated in the following lemma.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:dual"
+
+\end_inset
+
+Let the primal problem be given in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:relax"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+ Then the dual problem is 
+\begin_inset Formula 
+\begin{equation}
+\min_{\boldsymbol{\alpha}\in\mathbb{R}^{N}}\left\{ \frac{1}{2}\boldsymbol{\alpha}^{\prime}\widehat{\mathbf{A}}^{\prime}\widehat{\mathbf{A}}\boldsymbol{\alpha}+\frac{1}{N}\boldsymbol{1}_{N}^{\prime}\widehat{\boldsymbol{\Sigma}}\boldsymbol{\alpha}+\tau\left\Vert \boldsymbol{\alpha}\right\Vert _{1}-\frac{1}{2N}\right\} \text{\ \ subject to \ }\boldsymbol{1}_{N}^{\prime}\boldsymbol{\alpha}=0,\label{eq:sim_dual}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\widehat{\mathbf{A}}=\left(\mathbf{\mathbf{I}}_{N}-N^{-1}\boldsymbol{1}_{N}\boldsymbol{1}_{N}^{\prime}\right)\widehat{\boldsymbol{\Sigma}}$
+\end_inset
+
+ is the demeaned version of 
+\begin_inset Formula $\widehat{\boldsymbol{\Sigma}}$
+\end_inset
+
+.
+ Denote 
+\begin_inset Formula $\widehat{\boldsymbol{\alpha}}=\widehat{\boldsymbol{\alpha}}_{\tau}$
+\end_inset
+
+ as a solution to the dual problem in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:sim_dual"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+ Then the solution of 
+\begin_inset Formula $\mathbf{w}$
+\end_inset
+
+ to the primal problem in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:relax"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) is given by 
+\begin_inset Formula 
+\begin{equation}
+\widehat{\mathbf{w}}=\widehat{\mathbf{w}}_{\tau}=\widehat{\mathbf{A}}\widehat{\boldsymbol{\alpha}}+\frac{\boldsymbol{1}_{N}}{N}.\label{eq:w_A_alpha}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
