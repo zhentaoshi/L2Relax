@@ -253,24 +253,7 @@ name "sec:-Relaxation"
 \end_layout
 
 \begin_layout Standard
-An idea to stabilize the numerical solution is to expand the feasible set.
- Inspired by the Dantzig selector of 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "candes2007dantzig"
-literal "false"
-
-\end_inset
-
- and the relaxed empirical likelihood of 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "shi2016econometric"
-literal "false"
-
-\end_inset
-
-, we consider relaxing the sup-norm of the KKT condition as follows: 
+We consider relaxing the sup-norm of the KKT condition as follows: 
 \begin_inset Formula 
 \begin{equation}
 \min_{\left(\mathbf{w},\gamma\right)\in\mathbb{R}^{N+1}}\ \frac{1}{2}\left\Vert \mathbf{w}\right\Vert _{2}^{2}\text{ \ \ subject to \ }\mathbf{w}^{\prime}\boldsymbol{1}_{N}=1\ \text{and }\Vert\widehat{\boldsymbol{\Sigma}}\mathbf{w}+\gamma\boldsymbol{1}_{N}\Vert_{\infty}\leq\tau,\label{eq:relax}
@@ -327,32 +310,15 @@ noprefix "false"
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $\ell_{2}$
-\end_inset
 
--relaxation includes the low dimensional problem (
+\family typewriter
+\series bold
+Rmosek
+\family default
+ formulation of (
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "eq:relax_tau_0"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-) as a special case when 
-\begin_inset Formula $\tau$
-\end_inset
-
- is set as zero.
- When 
-\begin_inset Formula $\tau>0$
-\end_inset
-
-, we relax the high dimensional component of the KKT condition (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:KKT"
+reference "eq:relax"
 plural "false"
 caps "false"
 noprefix "false"
@@ -360,32 +326,42 @@ noprefix "false"
 \end_inset
 
 ).
- Since (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:bates-granger"
-plural "false"
-caps "false"
-noprefix "false"
 
+\series default
+ We transform the 
+\begin_inset Formula $l_{2}$
 \end_inset
 
-) always has a solution, constraints in (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:relax"
-plural "false"
-caps "false"
-noprefix "false"
-
+-norm 
+\begin_inset Formula $\left\Vert \mathbf{w}\right\Vert _{2}^{2}$
 \end_inset
 
-) are feasible for any 
-\begin_inset Formula $\tau\geq0$
+ to a second order conic constraint by using a new parameter 
+\begin_inset Formula $t$
+\end_inset
+
+ to replace it and adding a constraint 
+\begin_inset Formula $\left\Vert \mathbf{w}\right\Vert _{2}^{2}\leq t$
+\end_inset
+
+, which is equivalent to 
+\begin_inset Formula $\left\Vert \left(\mathbf{w},s\right)\right\Vert _{2}\leq r$
+\end_inset
+
+ where 
+\begin_inset Formula $s=\frac{t-1}{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $r=\frac{t+1}{2}$
 \end_inset
 
 .
- Moreover, the solution to (
+ Let 
+\begin_inset Formula $\theta=\left(\mathbf{w},\gamma,t,s,r\right)$
+\end_inset
+
+, the primal problem (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:relax"
@@ -395,33 +371,45 @@ noprefix "false"
 
 \end_inset
 
-) is unique because the objective is a strictly convex function and the
- feasible set is a closed convex set.
- Therefore, while (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:bates-granger"
-plural "false"
-caps "false"
-noprefix "false"
+) is then rewritten as
+\begin_inset Formula 
+\[
+\min_{\theta\in\mathbb{R}^{N+4}}\;\frac{1}{2}t\text{ \ subject to \ }\left\Vert \left(\mathbf{w},s\right)\right\Vert _{2}\leq r,\,\mathbf{w}^{\prime}\boldsymbol{1}_{N}=1,\,\Vert\widehat{\boldsymbol{\Sigma}}\mathbf{w}+\gamma\boldsymbol{1}_{N}\Vert_{\infty}\leq\tau,\,s=\frac{t-1}{2},\,r=\frac{t+1}{2}
+\]
 
 \end_inset
 
-) may have multiple solutions, the objective function in (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:relax"
-plural "false"
-caps "false"
-noprefix "false"
+In matrix form, 
+\begin_inset Formula 
+\begin{align*}
+ & \min_{\theta\in\mathbb{R}^{N+4}}\;\frac{1}{2}t\\
+\text{s.t.}\quad & \begin{pmatrix}1\\
+-\tau\boldsymbol{1}_{N}\\
+-\frac{1}{2}\\
+\frac{1}{2}
+\end{pmatrix}\leq\begin{pmatrix}\boldsymbol{1}_{N}^{\prime}\\
+\hat{\Sigma} & \boldsymbol{1}_{N}\\
+ &  & \begin{array}{ccc}
+-\frac{1}{2} & 1 & 0\\
+-\frac{1}{2} & 0 & 1
+\end{array}
+\end{pmatrix}\theta\leq\begin{pmatrix}1\\
+\tau\boldsymbol{1}_{N}\\
+-\frac{1}{2}\\
+\frac{1}{2}
+\end{pmatrix},\,\left\Vert \left(\mathbf{w},s\right)\right\Vert _{2}\leq r
+\end{align*}
 
 \end_inset
 
-) selects in the feasible set the solution with the smallest 
-\begin_inset Formula $\ell_{2}$
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
 \end_inset
 
--norm.
+
 \end_layout
 
 \begin_layout Standard
@@ -436,17 +424,7 @@ noprefix "false"
 \end_inset
 
 ).
- The result is stated in the following lemma.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset label
-LatexCommand label
-name "lem:dual"
-
-\end_inset
-
-Let the primal problem be given in (
+ Let the primal problem be given in (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:relax"
@@ -460,7 +438,7 @@ noprefix "false"
  Then the dual problem is 
 \begin_inset Formula 
 \begin{equation}
-\min_{\boldsymbol{\alpha}\in\mathbb{R}^{N}}\left\{ \frac{1}{2}\boldsymbol{\alpha}^{\prime}\widehat{\mathbf{A}}^{\prime}\widehat{\mathbf{A}}\boldsymbol{\alpha}+\frac{1}{N}\boldsymbol{1}_{N}^{\prime}\widehat{\boldsymbol{\Sigma}}\boldsymbol{\alpha}+\tau\left\Vert \boldsymbol{\alpha}\right\Vert _{1}-\frac{1}{2N}\right\} \text{\ \ subject to \ }\boldsymbol{1}_{N}^{\prime}\boldsymbol{\alpha}=0,\label{eq:sim_dual}
+\min_{\boldsymbol{\alpha}\in\mathbb{R}^{N}}\;\left\{ \frac{1}{2}\boldsymbol{\alpha}^{\prime}\widehat{\mathbf{A}}^{\prime}\widehat{\mathbf{A}}\boldsymbol{\alpha}+\frac{1}{N}\boldsymbol{1}_{N}^{\prime}\widehat{\boldsymbol{\Sigma}}\boldsymbol{\alpha}+\tau\left\Vert \boldsymbol{\alpha}\right\Vert _{1}-\frac{1}{2N}\right\} \text{\ \ subject to \ }\boldsymbol{1}_{N}^{\prime}\boldsymbol{\alpha}=0,\label{eq:sim_dual}
 \end{equation}
 
 \end_inset
@@ -509,6 +487,119 @@ noprefix "false"
 \widehat{\mathbf{w}}=\widehat{\mathbf{w}}_{\tau}=\widehat{\mathbf{A}}\widehat{\boldsymbol{\alpha}}+\frac{\boldsymbol{1}_{N}}{N}.\label{eq:w_A_alpha}
 \end{equation}
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+\series bold
+Rmosek
+\family default
+ formulation of (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:sim_dual"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+)
+\series default
+.
+ Note that the quadratic term, 
+\begin_inset Formula $\boldsymbol{\alpha}^{\prime}\widehat{\mathbf{A}}^{\prime}\widehat{\mathbf{A}}\boldsymbol{\alpha}=\left\Vert \widehat{\mathbf{A}}\boldsymbol{\alpha}\right\Vert _{2}^{2}$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $\tilde{\boldsymbol{\alpha}}=\widehat{A}\boldsymbol{\alpha}$
+\end_inset
+
+, we can apply the conic constraint as in the formulation of the primal
+ problem to deal with 
+\begin_inset Formula $\left\Vert \tilde{\boldsymbol{\alpha}}\right\Vert _{2}^{2}$
+\end_inset
+
+.
+ Next, we deal with the 
+\begin_inset Formula $l_{1}$
+\end_inset
+
+-norm, 
+\begin_inset Formula $\left\Vert \boldsymbol{\alpha}\right\Vert _{1}$
+\end_inset
+
+.
+ 
+\begin_inset Formula $\left\Vert \boldsymbol{\alpha}\right\Vert _{1}$
+\end_inset
+
+ can be decomposed into a positive part 
+\begin_inset Formula $\boldsymbol{\alpha}^{+}=\left(\max\left\{ 0,\boldsymbol{\alpha}_{i}\right\} \right)_{i=1}^{N}$
+\end_inset
+
+ and a negative part 
+\begin_inset Formula $\boldsymbol{\alpha}^{-}=\left(\max\left\{ 0,-\boldsymbol{\alpha}_{i}\right\} \right)_{i=1}^{N}$
+\end_inset
+
+, so that 
+\begin_inset Formula $\boldsymbol{\alpha}=\boldsymbol{\alpha}^{+}-\boldsymbol{\alpha}^{-}$
+\end_inset
+
+ and 
+\begin_inset Formula $\left\Vert \boldsymbol{\alpha}\right\Vert _{1}=\boldsymbol{1}_{N}^{\prime}\boldsymbol{\alpha}^{+}+\boldsymbol{1}_{N}^{\prime}\boldsymbol{\alpha}^{-}$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $\varphi=\left(\boldsymbol{\alpha},\tilde{\boldsymbol{\alpha}},\boldsymbol{\alpha}^{+},\boldsymbol{\alpha}^{-},t,s,r\right)$
+\end_inset
+
+, the dual problem (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:sim_dual"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) is then transformed to
+\begin_inset Formula 
+\begin{align*}
+ & \min_{\varphi\in\mathbb{R}^{4N+3}}\;\frac{1}{2}t+\left(\frac{1}{N}\boldsymbol{1}_{N}^{\prime}\hat{\Sigma}+\tau\boldsymbol{1}_{N}^{\prime}\right)\boldsymbol{\alpha}^{+}+\left(-\frac{1}{N}\boldsymbol{1}_{N}^{\prime}\hat{\Sigma}+\tau\boldsymbol{1}_{N}^{\prime}\right)\boldsymbol{\alpha}^{-}-\frac{1}{2N}\\
+\text{s.t.}\quad & \boldsymbol{1}_{N}^{\prime}\boldsymbol{\alpha}=0,\,\widehat{A}\boldsymbol{\alpha}-\tilde{\boldsymbol{\alpha}}=0,\,\boldsymbol{\alpha}-\boldsymbol{\alpha}^{+}+\boldsymbol{\alpha}^{-}=0,\,\left\Vert \left(\tilde{\boldsymbol{\alpha}},s\right)\right\Vert _{2}\leq r,\,s=\frac{t-1}{2},\,r=\frac{t+1}{2}
+\end{align*}
+
+\end_inset
+
+In matrix form, 
+\begin_inset Formula 
+\[
+\min_{\varphi\in\mathbb{R}^{4N+3}}c^{\prime}\varphi-\frac{1}{2N}\;\text{s.t.}\;\Phi\varphi=\left(\boldsymbol{0}_{2N+1}^{\prime},-\frac{1}{2},\frac{1}{2}\right)^{\prime},\,\left\Vert \left(\tilde{\boldsymbol{\alpha}},s\right)\right\Vert _{2}\leq r
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $c=\left(\boldsymbol{0}_{2N}^{\prime},\,\frac{1}{N}\boldsymbol{1}_{N}^{\prime}\hat{\Sigma}+\tau\boldsymbol{1}_{N}^{\prime},\,-\frac{1}{N}\boldsymbol{1}_{N}^{\prime}\hat{\Sigma}+\tau\boldsymbol{1}_{N}^{\prime},\,\frac{1}{2},\,0,\,0\right)^{\prime}$
+\end_inset
+
+ and 
+\begin_inset Formula $\Phi=\begin{pmatrix}\boldsymbol{1}_{N}^{\prime}\\
+\widehat{A} & -I_{N}\\
+I_{N} &  & -I_{N} & I_{N}\\
+ &  &  &  & \begin{array}{ccc}
+-\frac{1}{2} & 1 & 0\\
+-\frac{1}{2} & 0 & 1
+\end{array}
+\end{pmatrix}.$
 \end_inset
 
 
