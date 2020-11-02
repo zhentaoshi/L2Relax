@@ -2,7 +2,8 @@
 
 This is R code
 
-* [Zhentao Shi](http://www.zhentaoshi.com/) , [Liangjun Su](http://www.mysmu.edu/faculty/ljsu/), and [Tian Xie](https://cob.sufe.edu.cn/en/Home/Teachers_Details/201?typeId=1156): [“L2 relaxation”](arxiv) (2020), Arxiv
+*  , [Liangjun Su](http://www.mysmu.edu/faculty/ljsu/), and [Tian Xie](https://cob.sufe.edu.cn/en/Home/Teachers_Details/201?typeId=1156): [“L2 relaxation”](arxiv) (2020): "High Dimensional Forecast Combinations
+  Under Latent Structures" , Arxiv:2010.09477 [[download](https://arxiv.org/abs/2010.09477)]
 
 Zhentao Shi and Zhan Gao develop the R code.
 

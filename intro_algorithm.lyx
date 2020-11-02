@@ -48,6 +48,7 @@
 \begin_modules
 theorems-ams-bytype
 theorems-ams-extended-bytype
+knitr
 \end_modules
 \maintain_unincluded_children false
 \language english
@@ -136,6 +137,187 @@ theorems-ams-extended-bytype
 
 \begin_layout Section
 Introduction
+\end_layout
+
+\begin_layout Standard
+Since the seminal work of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "bates1969combination"
+literal "false"
+
+\end_inset
+
+, forecast combination has become very popular in the forecasting literature.
+ For an excellent review, see 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Timmermann2006"
+literal "false"
+
+\end_inset
+
+.
+ In this paper we consider high-dimensional forecast combinations in the
+ presence of many forecasts.
+ Suppose that 
+\begin_inset Formula $y_{t+1}$
+\end_inset
+
+ is an outcome variable of interest and there are 
+\begin_inset Formula $N$
+\end_inset
+
+ forecasts, 
+\begin_inset Formula $\left\{ f_{it}\right\} _{i\in\left[N\right]},$
+\end_inset
+
+ available at time 
+\begin_inset Formula $t$
+\end_inset
+
+ for
+\begin_inset space \space{}
+\end_inset
+
+
+\begin_inset Formula $y_{t+1},$
+\end_inset
+
+ where 
+\begin_inset Formula $t\in\left[T\right]\equiv\{1,2,...,T\}$
+\end_inset
+
+ and 
+\begin_inset Formula $\left[N\right]\equiv\{1,2,...,N\}.$
+\end_inset
+
+ Let 
+\begin_inset Formula $\mathbf{f}_{t}=(f_{1t},...,f_{Nt})^{\prime}.$
+\end_inset
+
+ The interest is to find an 
+\begin_inset Formula $N\times1$
+\end_inset
+
+ weight vector 
+\begin_inset Formula $\mathbf{w}=(w_{1},...,w_{N})^{\prime}$
+\end_inset
+
+ to form a linear combination 
+\begin_inset Formula $\mathbf{w}^{\prime}\mathbf{f}_{t}$
+\end_inset
+
+ whose mean squared forecast error (MSFE) is minimized.
+ One way to estimate 
+\begin_inset Formula $\mathbf{w}$
+\end_inset
+
+ is to run the restricted least squares (RLS): 
+\begin_inset Formula 
+\begin{equation}
+\min_{\mathbf{w}\in\mathbb{R}^{N}}\,\frac{1}{2T}\sum_{t=1}^{T}\left(y_{t+1}-\mathbf{w}^{\prime}\mathbf{f}_{t}\right)^{2}\ \ \text{\ \ subject to \ }\mathbf{w}^{\prime}\boldsymbol{1}_{N}=1,\label{eq:BG_regression}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\boldsymbol{1}_{N}$
+\end_inset
+
+ is an 
+\begin_inset Formula $N\times1$
+\end_inset
+
+ vector of ones.
+ Alternatively, given the forecast error vector 
+\begin_inset Formula $\mathbf{e}_{t}=\left(e_{1t},\ldots,e_{Nt}\right)^{\prime}$
+\end_inset
+
+ with 
+\begin_inset Formula $e_{it}=y_{t+1}-f_{it}$
+\end_inset
+
+ and its sample variance-covariance (VC) estimate: 
+\begin_inset Formula $\widehat{\boldsymbol{\Sigma}}\equiv T^{-1}\sum_{t=1}^{T}\mathbf{e}_{t}\mathbf{e}_{t}^{\prime}$
+\end_inset
+
+, we can follow 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "bates1969combination"
+literal "false"
+
+\end_inset
+
+ and consider the following minimization problem: 
+\begin_inset Formula 
+\begin{equation}
+\min_{\mathbf{w}\in\mathbb{R}^{N}}\,\frac{1}{2}\mathbf{w}^{\prime}\widehat{\boldsymbol{\Sigma}}\mathbf{w}\ \ \text{subject to \ }\mathbf{w}^{\prime}\boldsymbol{1}_{N}=1.\label{eq:bates-granger}
+\end{equation}
+
+\end_inset
+
+Denote the solution to the above constrained optimization problem as 
+\begin_inset Formula $\widehat{\mathbf{w}}^{\mathrm{\mathrm{BG}}}$
+\end_inset
+
+.
+ When 
+\begin_inset Formula $\widehat{\boldsymbol{\Sigma}}$
+\end_inset
+
+ is invertible, we can explicitly solve the problem to obtain the optimal
+ solution: 
+\begin_inset Formula 
+\begin{equation}
+\widehat{\mathbf{w}}^{\mathrm{\mathrm{BG}}}=\left(\boldsymbol{1}_{N}^{\prime}\widehat{\boldsymbol{\Sigma}}^{-1}\boldsymbol{1}_{N}\right)^{-1}\widehat{\boldsymbol{\Sigma}}^{-1}\boldsymbol{1}_{N}.\label{eq:bates-granger-explicit}
+\end{equation}
+
+\end_inset
+
+The two formulations in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:bates-granger"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) and (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:BG_regression"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) are numerically equivalent, as demonstrated by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "granger1984improved"
+literal "false"
+
+\end_inset
+
+.
+ Apparently, the requirement of the invertibility of 
+\begin_inset Formula $\widehat{\boldsymbol{\Sigma}}$
+\end_inset
+
+ is not innocuous in high dimensional setting, and in fact 
+\begin_inset Formula $\widehat{\boldsymbol{\Sigma}}$
+\end_inset
+
+ is always singular if 
+\begin_inset Formula $N>T.$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -310,6 +492,153 @@ noprefix "false"
 \end_layout
 
 \begin_layout Standard
+The following is the CVXR code.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<eval=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+rL2_primal <- function(Sigma, tau = 0) {
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  N <- nrow(Sigma)
+\end_layout
+
+\begin_layout Plain Layout
+
+  w_gamma <- Variable(N + 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+  w <- w_gamma[1:N]
+\end_layout
+
+\begin_layout Plain Layout
+
+  gamm <- w_gamma[N + 1]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  objective <- Minimize(0.5 * sum_squares(w))
+\end_layout
+
+\begin_layout Plain Layout
+
+  constraints <- list(sum(w) == 1,
+\end_layout
+
+\begin_layout Plain Layout
+
+    Sigma %*% w + gamm <= tau, 
+\end_layout
+
+\begin_layout Plain Layout
+
+   -Sigma %*% w - gamm <= tau  )
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\end_layout
+
+\begin_layout Plain Layout
+
+  problem <- Problem(objective, constraints)
+\end_layout
+
+\begin_layout Plain Layout
+
+  result <- solve(problem, solver = "ECOS_BB")
+\end_layout
+
+\begin_layout Plain Layout
+
+  w_hat <- result$getValue(w_gamma)[1:N]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  return(w_hat) 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The formulation is very simple.
+ (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:relax"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) can be written explicitly as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{alignat*}{1}
+\min_{\left(\mathbf{w},\gamma\right)\in\mathbb{R}^{N+1}}\  & \frac{1}{2}\mathbf{w}^{\prime}\mathbf{w}\\
+\text{ \ \ subject to \ }\mathbf{w}^{\prime}\boldsymbol{1}_{N} & =1\\
+\widehat{\boldsymbol{\Sigma}}\mathbf{w}+\gamma\boldsymbol{1}_{N} & \leq\tau\boldsymbol{1}_{N},\\
+-(\widehat{\boldsymbol{\Sigma}}\mathbf{w}+\gamma\boldsymbol{1}_{N}) & \leq\tau\boldsymbol{1}_{N}.
+\end{alignat*}
+
+\end_inset
+
+The criterion function is quadratic, and there are 
+\begin_inset Formula $2N+1$
+\end_inset
+
+ linear constraints.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
 
 \family typewriter
 \series bold
@@ -405,14 +734,14 @@ In matrix form,
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset VSpace bigskip
 \end_inset
 
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 To proceed, we consider the dual problem of (
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -492,7 +821,7 @@ noprefix "false"
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \family typewriter
 \series bold
@@ -600,6 +929,247 @@ I_{N} &  & -I_{N} & I_{N}\\
 -\frac{1}{2} & 0 & 1
 \end{array}
 \end{pmatrix}.$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ The following is the Rmosek version looks more complicated, but it runs
+ faster.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<eval=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+rL2_primal_mosek <- function(Sigma, tau, tol = 1e-7) {
+\end_layout
+
+\begin_layout Plain Layout
+
+  N <- nrow(Sigma)
+\end_layout
+
+\begin_layout Plain Layout
+
+  # variable order: w_1, w_2, ..., w_N, gamma, t, s, r
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  prob <- list(sense = "min")
+\end_layout
+
+\begin_layout Plain Layout
+
+  prob$dparam <- list(INTPNT_CO_TOL_REL_GAP = tol)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  prob$c <- c(rep(0, N + 1), 1 / 2, rep(0, 2))
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\end_layout
+
+\begin_layout Plain Layout
+
+  A_1 <- rbind(
+\end_layout
+
+\begin_layout Plain Layout
+
+    c(rep(1, N), 0), # sum of weight == 1
+\end_layout
+
+\begin_layout Plain Layout
+
+    cbind(Sigma, rep(1, N)) # ||Sigma_hat w + gamma||_
+\backslash
+infty 
+\backslash
+leq tau
+\end_layout
+
+\begin_layout Plain Layout
+
+  )
+\end_layout
+
+\begin_layout Plain Layout
+
+  A_2 <- rbind(c(1 / 2, -1, 0), c(1 / 2, 0, -1)) # transformation of the
+ squared l2 norm
+\end_layout
+
+\begin_layout Plain Layout
+
+  A <- Matrix::bdiag(A_1, A_2)
+\end_layout
+
+\begin_layout Plain Layout
+
+  prob$A <- as(A, "CsparseMatrix")
+\end_layout
+
+\begin_layout Plain Layout
+
+  prob$bc <- rbind(
+\end_layout
+
+\begin_layout Plain Layout
+
+    blc = c(1, tau * rep(1, N), 1 / 2, -1 / 2),
+\end_layout
+
+\begin_layout Plain Layout
+
+    buc = c(1, -tau * rep(1, N), 1 / 2, -1 / 2)
+\end_layout
+
+\begin_layout Plain Layout
+
+  )
+\end_layout
+
+\begin_layout Plain Layout
+
+  prob$bx <- rbind(
+\end_layout
+
+\begin_layout Plain Layout
+
+    blx = c(rep(-Inf, N + 1), 0, rep(-Inf, 2)),
+\end_layout
+
+\begin_layout Plain Layout
+
+    bux = rep(Inf, N + 4)
+\end_layout
+
+\begin_layout Plain Layout
+
+  )
+\end_layout
+
+\begin_layout Plain Layout
+
+  # conic constraint
+\end_layout
+
+\begin_layout Plain Layout
+
+  prob$cones <- matrix(list("QUAD", c(N + 4, 1:N, N + 3)))
+\end_layout
+
+\begin_layout Plain Layout
+
+  rownames(prob$cones) <- c("type", "sub")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  mosek_out <- Rmosek::mosek(prob, opts = list(verbose = 0))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  xx <- mosek_out$sol$itr$xx
+\end_layout
+
+\begin_layout Plain Layout
+
+  w_hat <- xx[1:N]
+\end_layout
+
+\begin_layout Plain Layout
+
+  gamma_hat <- xx[N + 1]
+\end_layout
+
+\begin_layout Plain Layout
+
+  status <- mosek_out$sol$itr$solsta
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  return(list(
+\end_layout
+
+\begin_layout Plain Layout
+
+    w = w_hat,
+\end_layout
+
+\begin_layout Plain Layout
+
+    gamma = gamma_hat,
+\end_layout
+
+\begin_layout Plain Layout
+
+    status = status
+\end_layout
+
+\begin_layout Plain Layout
+
+  ))
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "regressorComb"
+options "chicago"
+
 \end_inset
 
 
