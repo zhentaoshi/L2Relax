@@ -359,7 +359,38 @@ noprefix "false"
 \end_layout
 
 \begin_layout Standard
-The following is the CVXR code.
+The following is the CVXR code with the free convex solver 
+\family typewriter
+ECOS_BB
+\family default
+.
+ The function requires only two input arguments: 
+\family typewriter
+Sigma
+\family default
+ (The sample covariance 
+\begin_inset Formula $\widehat{\boldsymbol{\Sigma}})$
+\end_inset
+
+ and the tuning parameter 
+\family typewriter
+tau
+\family default
+ (
+\begin_inset Formula $\tau$
+\end_inset
+
+).
+ The default is 
+\begin_inset Formula $\tau=0$
+\end_inset
+
+, under which 
+\begin_inset Formula $\widehat{\mathbf{w}}=\widehat{\mathbf{w}}^{\mathrm{\mathrm{BG}}}$
+\end_inset
+
+.
+ 
 \end_layout
 
 \begin_layout Standard
