@@ -9,7 +9,7 @@
 This is R code
 
 *  Zhentao Shi, [Liangjun Su](http://www.mysmu.edu/faculty/ljsu/), and [Tian Xie](https://cob.sufe.edu.cn/en/Home/Teachers_Details/201?typeId=1156) (2020): "High Dimensional Forecast Combinations
-  Under Latent Structures" ,  [[Arxiv:2010.09477](https://arxiv.org/abs/2010.09477)]
+  Under Latent Structures", [[Arxiv:2010.09477](https://arxiv.org/abs/2010.09477)]
 
 Contributors: Zhentao Shi and Zhan Gao
 

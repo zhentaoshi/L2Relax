@@ -72,7 +72,7 @@ knitr
 \output_sync 0
 \bibtex_command default
 \index_command default
-\paperfontsize 11
+\paperfontsize 12
 \spacing onehalf
 \use_hyperref true
 \pdf_bookmarks true
@@ -135,41 +135,60 @@ knitr
 
 \begin_body
 
-\begin_layout Section
-Introduction
+\begin_layout Title
+L2-Relaxation
+\end_layout
+
+\begin_layout Author
+Zhentao Shi and Zhan Gao
 \end_layout
 
 \begin_layout Standard
-Since the seminal work of 
+Forecast combination 
 \begin_inset CommandInset citation
-LatexCommand citet
+LatexCommand citep
 key "bates1969combination"
 literal "false"
 
 \end_inset
 
-, forecast combination has become very popular in the forecasting literature.
- For an excellent review, see 
+ is widely used in practical forecasting problems.
+ 
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+-relaxation is an algorithm designed for high-dimensional forecast combinations
+ in the presence of many forecasts.
+ This vignette introduces the R implementation of 
 \begin_inset CommandInset citation
 LatexCommand citet
-key "Timmermann2006"
+key "shi2020high"
 literal "false"
 
 \end_inset
 
-.
- In this paper we consider high-dimensional forecast combinations in the
- presence of many forecasts.
- Suppose that 
+'s 
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+-relaxation.
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+Let 
 \begin_inset Formula $y_{t+1}$
 \end_inset
 
- is an outcome variable of interest and there are 
+ be an outcome variable of interest, and there are 
 \begin_inset Formula $N$
 \end_inset
 
  forecasts, 
-\begin_inset Formula $\left\{ f_{it}\right\} _{i\in\left[N\right]},$
+\begin_inset Formula $\mathbf{f}_{t}:=\left\{ f_{it}\right\} _{i\in\left[N\right]},$
 \end_inset
 
  available at time 
@@ -185,18 +204,14 @@ literal "false"
 \end_inset
 
  where 
-\begin_inset Formula $t\in\left[T\right]\equiv\{1,2,...,T\}$
+\begin_inset Formula $t\in\left[T\right]:=\{1,2,...,T\}$
 \end_inset
 
  and 
-\begin_inset Formula $\left[N\right]\equiv\{1,2,...,N\}.$
+\begin_inset Formula $\left[N\right]:=\{1,2,...,N\}.$
 \end_inset
 
- Let 
-\begin_inset Formula $\mathbf{f}_{t}=(f_{1t},...,f_{Nt})^{\prime}.$
-\end_inset
-
- The interest is to find an 
+ We are interested in finding an 
 \begin_inset Formula $N\times1$
 \end_inset
 
@@ -208,15 +223,45 @@ literal "false"
 \begin_inset Formula $\mathbf{w}^{\prime}\mathbf{f}_{t}$
 \end_inset
 
- whose mean squared forecast error (MSFE) is minimized.
- One way to estimate 
-\begin_inset Formula $\mathbf{w}$
+ to minimize the mean squared forecast error (MSFE) of the estimation error
+ 
+\begin_inset Formula 
+\[
+y_{t+1}-\mathbf{w}^{\prime}\mathbf{f}_{t}=\mathbf{w}^{\prime}\mathbf{e}_{t},
+\]
+
 \end_inset
 
- is to run the restricted least squares (RLS): 
+where 
+\begin_inset Formula $\mathbf{e}_{t}=\left(e_{1t},\ldots,e_{Nt}\right)^{\prime}$
+\end_inset
+
+ with 
+\begin_inset Formula $e_{it}=y_{t+1}-f_{it}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Given the forecast error vector and its sample variance-covariance (VC)
+ estimate 
+\begin_inset Formula $\widehat{\boldsymbol{\Sigma}}\equiv T^{-1}\sum_{t=1}^{T}\mathbf{e}_{t}\mathbf{e}_{t}^{\prime}$
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "bates1969combination"
+literal "false"
+
+\end_inset
+
+ proposed the following constrained minimization problem 
 \begin_inset Formula 
 \begin{equation}
-\min_{\mathbf{w}\in\mathbb{R}^{N}}\,\frac{1}{2T}\sum_{t=1}^{T}\left(y_{t+1}-\mathbf{w}^{\prime}\mathbf{f}_{t}\right)^{2}\ \ \text{\ \ subject to \ }\mathbf{w}^{\prime}\boldsymbol{1}_{N}=1,\label{eq:BG_regression}
+\min_{\mathbf{w}\in\mathbb{R}^{N}}\,\frac{1}{2}\mathbf{w}^{\prime}\widehat{\boldsymbol{\Sigma}}\mathbf{w}\ \ \text{subject to \ }\mathbf{w}^{\prime}\boldsymbol{1}_{N}=1.\label{eq:bates-granger}
 \end{equation}
 
 \end_inset
@@ -230,35 +275,7 @@ where
 \end_inset
 
  vector of ones.
- Alternatively, given the forecast error vector 
-\begin_inset Formula $\mathbf{e}_{t}=\left(e_{1t},\ldots,e_{Nt}\right)^{\prime}$
-\end_inset
-
- with 
-\begin_inset Formula $e_{it}=y_{t+1}-f_{it}$
-\end_inset
-
- and its sample variance-covariance (VC) estimate: 
-\begin_inset Formula $\widehat{\boldsymbol{\Sigma}}\equiv T^{-1}\sum_{t=1}^{T}\mathbf{e}_{t}\mathbf{e}_{t}^{\prime}$
-\end_inset
-
-, we can follow 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "bates1969combination"
-literal "false"
-
-\end_inset
-
- and consider the following minimization problem: 
-\begin_inset Formula 
-\begin{equation}
-\min_{\mathbf{w}\in\mathbb{R}^{N}}\,\frac{1}{2}\mathbf{w}^{\prime}\widehat{\boldsymbol{\Sigma}}\mathbf{w}\ \ \text{subject to \ }\mathbf{w}^{\prime}\boldsymbol{1}_{N}=1.\label{eq:bates-granger}
-\end{equation}
-
-\end_inset
-
-Denote the solution to the above constrained optimization problem as 
+ Denote the solution to the above constrained optimization problem as 
 \begin_inset Formula $\widehat{\mathbf{w}}^{\mathrm{\mathrm{BG}}}$
 \end_inset
 
@@ -268,48 +285,15 @@ Denote the solution to the above constrained optimization problem as
 \end_inset
 
  is invertible, we can explicitly solve the problem to obtain the optimal
- solution: 
-\begin_inset Formula 
-\begin{equation}
-\widehat{\mathbf{w}}^{\mathrm{\mathrm{BG}}}=\left(\boldsymbol{1}_{N}^{\prime}\widehat{\boldsymbol{\Sigma}}^{-1}\boldsymbol{1}_{N}\right)^{-1}\widehat{\boldsymbol{\Sigma}}^{-1}\boldsymbol{1}_{N}.\label{eq:bates-granger-explicit}
-\end{equation}
-
+ solution 
+\begin_inset Formula $\widehat{\mathbf{w}}^{\mathrm{\mathrm{BG}}}=\left(\boldsymbol{1}_{N}^{\prime}\widehat{\boldsymbol{\Sigma}}^{-1}\boldsymbol{1}_{N}\right)^{-1}\widehat{\boldsymbol{\Sigma}}^{-1}\boldsymbol{1}_{N}.$
 \end_inset
 
-The two formulations in (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:bates-granger"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-) and (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:BG_regression"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-) are numerically equivalent, as demonstrated by 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "granger1984improved"
-literal "false"
-
-\end_inset
-
-.
- Apparently, the requirement of the invertibility of 
+ The requirement of the invertibility of 
 \begin_inset Formula $\widehat{\boldsymbol{\Sigma}}$
 \end_inset
 
- is not innocuous in high dimensional setting, and in fact 
+ is not guaranteed in high dimensional settings, and in fact 
 \begin_inset Formula $\widehat{\boldsymbol{\Sigma}}$
 \end_inset
 
@@ -318,106 +302,6 @@ literal "false"
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-\begin_inset VSpace medskip
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-Notation
-\series default
-: For a random variable 
-\begin_inset Formula $x$
-\end_inset
-
-, its population mean is 
-\begin_inset Formula $E\left[x\right]$
-\end_inset
-
-.
- For a sample 
-\begin_inset Formula $\left(x_{1},\ldots,x_{T}\right)$
-\end_inset
-
-, its sample mean is 
-\begin_inset Formula $\mathbb{E}_{T}\left[x_{t}\right]=T^{-1}\sum_{t=1}^{T}x_{t}$
-\end_inset
-
-.
- Plain 
-\begin_inset Formula $b$
-\end_inset
-
- denotes a scalar, boldface lowercase 
-\begin_inset Formula $\mathbf{b}$
-\end_inset
-
- denotes a vector, and boldface uppercase 
-\begin_inset Formula $\mathbf{B}$
-\end_inset
-
- denotes a matrix.
- The 
-\begin_inset Formula $\ell_{1}$
-\end_inset
-
--norm of 
-\begin_inset Formula $\mathbf{b}$
-\end_inset
-
- is denoted as 
-\begin_inset Formula $\left\Vert \mathbf{b}\right\Vert _{1}=\sum_{i=1}^{n}\left\vert b_{i}\right\vert $
-\end_inset
-
- and the 
-\begin_inset Formula $\ell_{2}$
-\end_inset
-
--norm as 
-\begin_inset Formula $\left\Vert \mathbf{b}\right\Vert _{2}=\left(\sum_{i=1}^{n}b_{i}^{2}\right)^{1/2}$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-The cross-sectional units are indexed by 
-\begin_inset Formula $i\in\left[N\right]:=\left\{ 1,\ldots,N\right\} $
-\end_inset
-
-.
- For a generic index set 
-\begin_inset Formula $\mathcal{G}\subset\left[N\right]$
-\end_inset
-
-, we denote 
-\begin_inset Formula $\left\vert \mathcal{G}\right\vert $
-\end_inset
-
- as the cardinality of 
-\begin_inset Formula $\mathcal{G}$
-\end_inset
-
-, and 
-\begin_inset Formula $\mathbf{b}_{\mathcal{G}}=\left(b_{i}\right)_{i\in\mathcal{G}_{k}}$
-\end_inset
-
- as the 
-\begin_inset Formula $\left\vert \mathcal{G}\right\vert $
-\end_inset
-
--dimensional subvector.
- We call a vector of 
-\shape italic
-similar sign
-\shape default
- if no pair of its elements takes the opposite signs.
 \end_layout
 
 \begin_layout Section
@@ -435,7 +319,15 @@ name "sec:-Relaxation"
 \end_layout
 
 \begin_layout Standard
-We consider relaxing the sup-norm of the KKT condition as follows: 
+The 
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+
+\shape italic
+-relaxation primal problem
+\shape default
+ is the following constrained quadratic form optimization 
 \begin_inset Formula 
 \begin{equation}
 \min_{\left(\mathbf{w},\gamma\right)\in\mathbb{R}^{N+1}}\ \frac{1}{2}\left\Vert \mathbf{w}\right\Vert _{2}^{2}\text{ \ \ subject to \ }\mathbf{w}^{\prime}\boldsymbol{1}_{N}=1\ \text{and }\Vert\widehat{\boldsymbol{\Sigma}}\mathbf{w}+\gamma\boldsymbol{1}_{N}\Vert_{\infty}\leq\tau,\label{eq:relax}
@@ -448,25 +340,7 @@ where
 \end_inset
 
  is a tuning parameter to be specified by the user.
- We call the problem in (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:relax"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-) the 
-\begin_inset Formula $\ell_{2}$
-\end_inset
-
-
-\shape italic
--relaxation primal problem
-\shape default
-, and denote the solution to (
+ Denote the solution to (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:relax"
@@ -477,18 +351,11 @@ noprefix "false"
 \end_inset
 
 ) as 
-\begin_inset Formula $\widehat{\mathbf{w}}=\widehat{\mathbf{w}}_{\tau},$
-\end_inset
-
- where we frequently suppress the dependence of 
 \begin_inset Formula $\widehat{\mathbf{w}}$
 \end_inset
 
- on 
-\begin_inset Formula $\tau$
-\end_inset
-
- for conciseness.
+.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -936,8 +803,16 @@ I_{N} &  & -I_{N} & I_{N}\\
 
 \end_inset
 
- The following is the Rmosek version looks more complicated, but it runs
- faster.
+ The following is the 
+\family typewriter
+Rmosek
+\family default
+ version looks more complicated, but it runs faster if the commercial convex
+ solver 
+\family typewriter
+Mosek
+\family default
+ is available.
 \end_layout
 
 \begin_layout Standard
