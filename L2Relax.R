@@ -39,12 +39,13 @@ rL2_primal_mosek <- function(Sigma, tau, tol = 1e-7) {
     c(rep(1, N), 0), # sum of weight == 1
     cbind(Sigma, rep(1, N)) # ||Sigma_hat w + gamma||_\infty \leq tau
   )
-  A_2 <- rbind(c(1 / 2, -1, 0), c(1 / 2, 0, -1)) # transformation of the squared l2 norm
+  A_2 <- rbind(c(1 / 2, -1, 0), c(1 / 2, 0, -1)) 
+  # transformation of the squared l2 norm
   A <- Matrix::bdiag(A_1, A_2)
   prob$A <- as(A, "CsparseMatrix")
   prob$bc <- rbind(
-    blc = c(1, tau * rep(1, N), 1 / 2, -1 / 2),
-    buc = c(1, -tau * rep(1, N), 1 / 2, -1 / 2)
+    blc = c(1, -tau * rep(1, N), 1 / 2, -1 / 2),
+    buc = c(1, tau * rep(1, N), 1 / 2, -1 / 2)
   )
   prob$bx <- rbind(
     blx = c(rep(-Inf, N + 1), 0, rep(-Inf, 2)),
