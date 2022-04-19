@@ -945,12 +945,12 @@ leq tau
 
 \begin_layout Plain Layout
 
-    blc = c(1, tau * rep(1, N), 1 / 2, -1 / 2),
+    blc = c(1,  -tau * rep(1, N), 1 / 2, -1 / 2),
 \end_layout
 
 \begin_layout Plain Layout
 
-    buc = c(1, -tau * rep(1, N), 1 / 2, -1 / 2)
+    buc = c(1,  tau * rep(1, N), 1 / 2, -1 / 2)
 \end_layout
 
 \begin_layout Plain Layout
