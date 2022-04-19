@@ -46,8 +46,8 @@ rL2_primal_mosek <- function(Sigma, tau, tol = 1e-7) {
   A <- Matrix::bdiag(A_1, A_2)
   prob$A <- as(A, "CsparseMatrix")
   prob$bc <- rbind(
-    blc = c(1, tau * rep(1, N), 1 / 2, -1 / 2),
-    buc = c(1, -tau * rep(1, N), 1 / 2, -1 / 2)
+    blc = c(1, -tau * rep(1, N), 1 / 2, -1 / 2),
+    buc = c(1, tau * rep(1, N), 1 / 2, -1 / 2)
   )
   prob$bx <- rbind(
     blx = c(rep(-Inf, N + 1), 0, rep(-Inf, 2)),
